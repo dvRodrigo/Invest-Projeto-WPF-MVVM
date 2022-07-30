@@ -1,0 +1,75 @@
+﻿<Window x:Class="ProjetoWpf.Views.WinMeuCadastro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjetoWpf.Views"
+        xmlns:vm="clr-namespace:ProjetoWpf.ViewModels"
+        xmlns:conv="clr-namespace:ProjetoWpf.Data.Conversores"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Height="450" Width="500">
+    <Window.Resources>
+        <vm:MeuCadastroViewModel x:Key="vmMeuCadastro"/>
+        <conv:ConvInserirOuAtualizarText x:Key="ConvText"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource vmMeuCadastro}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding InvestidorAtual.IdInvestidor,Mode=TwoWay,
+                   UpdateSourceTrigger=PropertyChanged,
+                   StringFormat=Meu Cadastro - Código: {0}}" 
+                   Grid.Column="1" Grid.ColumnSpan="2" 
+                   FontSize="18" VerticalAlignment="Center" />
+        
+        <TextBlock Text="Nome completo: " Grid.Row="1" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"
+                 Text="{Binding InvestidorAtual.NomeCompleto, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Text="Email: " Grid.Row="2" Margin="0,5,0,0"
+                   HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0"
+                 Text="{Binding InvestidorAtual.Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Text="Contato: " Grid.Row="3" Margin="0,5,0,0" 
+                   HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,5,0,0"
+                 Text="{Binding InvestidorAtual.Contato,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Text="Corretora: " Grid.Row="4" Margin="0,5,0,0"
+                   HorizontalAlignment="Right"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,0,0"
+                  ItemsSource="{Binding CorretorasCadastradas,Mode=TwoWay,
+                  UpdateSourceTrigger=PropertyChanged}"
+                  DisplayMemberPath="Nome"
+                  SelectedValuePath="Id"
+                  SelectedValue="{Binding InvestidorAtual.IdCorretora,Mode=TwoWay,
+                  UpdateSourceTrigger=PropertyChanged}"
+                  />
+
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="2"
+                    Grid.ColumnSpan="2" Margin="0,10,0,0">
+            <Button Content="{Binding InvestidorAtual.IdInvestidor, 
+                Converter={StaticResource ConvText},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Width="60" Margin="0,0,6,0" Command="{Binding AddMeuCadastroCommand}"/>
+            <Button Content="Sair" Width="60" Command="{Binding  SairMeuCadastroCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

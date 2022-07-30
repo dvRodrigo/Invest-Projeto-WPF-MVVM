@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ProjetoWPF" Class="DataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DOMINIC\S2014;Initial Catalog=ProjetoWPF;Integrated Security=True" SettingsObjectName="ProjetoWpf.Properties.Settings" SettingsPropertyName="ProjetoWPFConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Investidores" Member="Investidores">
+    <Type Name="Investidores">
+      <Column Name="PK_Investidor" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NomeCompleto" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="Contato" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="FK_Corretora" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Investidores_OperacoesRealizadas" Member="OperacoesRealizadas" ThisKey="PK_Investidor" OtherKey="FK_Investidor" Type="OperacoesRealizadas" />
+      <Association Name="Investidores_Usuarios" Member="Usuarios" ThisKey="PK_Investidor" OtherKey="FK_Investidor" Type="Usuarios" />
+      <Association Name="Corretoras_Investidores" Member="Corretoras" ThisKey="FK_Corretora" OtherKey="PK_Corretora" Type="Corretoras" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OperacoesRealizadas" Member="OperacoesRealizadas">
+    <Type Name="OperacoesRealizadas">
+      <Column Name="PK_Operacao" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodigoAcao" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="Operacao" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Quantidade" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ValorDeFechamento" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="PrecoMedio" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="ValorTotal" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="DataOperacao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FK_Corretora" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FK_Investidor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Investidores_OperacoesRealizadas" Member="Investidores" ThisKey="FK_Investidor" OtherKey="PK_Investidor" Type="Investidores" IsForeignKey="true" />
+      <Association Name="Corretoras_OperacoesRealizadas" Member="Corretoras" ThisKey="FK_Corretora" OtherKey="PK_Corretora" Type="Corretoras" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuarios" Member="Usuarios">
+    <Type Name="Usuarios">
+      <Column Name="PK_Usuario" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Login" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Senha" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="FK_Investidor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Investidores_Usuarios" Member="Investidores" ThisKey="FK_Investidor" OtherKey="PK_Investidor" Type="Investidores" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Corretoras" Member="Corretoras">
+    <Type Name="Corretoras">
+      <Column Name="PK_Corretora" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Column Name="CNPJ" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Association Name="Corretoras_Investidores" Member="Investidores" ThisKey="PK_Corretora" OtherKey="FK_Corretora" Type="Investidores" />
+      <Association Name="Corretoras_OperacoesRealizadas" Member="OperacoesRealizadas" ThisKey="PK_Corretora" OtherKey="FK_Corretora" Type="OperacoesRealizadas" />
+    </Type>
+  </Table>
+</Database>
